@@ -26,10 +26,13 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.FontPosture;
 import javafx.scene.image.Image;
 import java.util.ArrayList;
+import java.util.Timer;
 
 
 public class Game extends Application {
     ArrayList<String> moves = new ArrayList<String>();
+    long lastPressProcessed = 0;
+
     public void start(Stage theStage){
         theStage.setTitle("Let's Play!");
 
@@ -37,22 +40,29 @@ public class Game extends Application {
         Scene theScene = new Scene( root );
         theStage.setScene( theScene );
 
-        Canvas canvas = new Canvas( 400, 200 );
+        Canvas canvas = new Canvas( 1000, 1000 );
         root.getChildren().add( canvas );
+
+
 
         theScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
-                String code = event.getCode().toString();
+                if(System.currentTimeMillis() - lastPressProcessed > 300) {
+                    String code = event.getCode().toString();
 
-                if(!moves.contains(code)){
-                    moves.add(code);
+                    if (!moves.contains(code) && moves.isEmpty()) {
+                        moves.add(code);
+
+                    }
+                    lastPressProcessed = System.currentTimeMillis();
                 }
             }
         });
         theScene.setOnKeyReleased(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
+
                 String code = event.getCode().toString();
                 moves.remove(code);
             }
@@ -66,32 +76,81 @@ public class Game extends Application {
         Font theFont = Font.font( "Times New Roman", FontWeight.BOLD, 48 );
 
         Character hero = new Character();
+        Character enemy = new Character();
 
         gc.setFont( theFont );
 
 
-
         new AnimationTimer(){
             public void handle(long currentNanoTime){
-                gc.clearRect(0, 0, 400, 200);
-                gc.fillText( "Hello, World!", 60, 50 );
-                gc.strokeText( "Hello, World!", 60, 50 );
+                gc.clearRect(0, 0, 1000, 1000);
+                enemy.setSpawn(110, 50);
+                enemy.render(gc);
+
 
                 if (moves.contains("LEFT")) {
-                    hero.moveL();
-                    hero.render(gc);
+                    if(!hero.collision(enemy)) {
+                        hero.moveL();
+                        hero.render(gc);
+                    }
+                    else{
+                        hero.moveR();
+                        hero.moveR();
+                        hero.moveR();
+                        hero.moveR();
+                        hero.moveR();
+                        hero.moveR();
+                        return;
+                        //hero.render(gc);
+                    }
                 }
                 if (moves.contains("RIGHT")){
-                    hero.moveR();
-                    hero.render(gc);
+                    if (!hero.collision(enemy)) {
+                        hero.moveR();
+                        hero.render(gc);
+                    }
+                    else{
+                        hero.moveL();
+                        hero.moveL();
+                        hero.moveL();
+                        hero.moveL();
+                        hero.moveL();
+                        hero.moveL();
+                        return;
+                        //hero.render(gc);
+                    }
                 }
                 if (moves.contains("UP")){
-                    hero.moveU();
-                    hero.render(gc);
+                    if (!hero.collision(enemy)) {
+                        hero.moveU();
+                        hero.render(gc);
+                    }
+                    else {
+                        hero.moveD();
+                        hero.moveD();
+                        hero.moveD();
+                        hero.moveD();
+                        hero.moveD();
+                        hero.moveD();
+                        return;
+                        //hero.render(gc);
+                    }
                 }
                 if (moves.contains("DOWN")){
-                    hero.moveD();
-                    hero.render(gc);
+                    if (!hero.collision(enemy)) {
+                        hero.moveD();
+                        hero.render(gc);
+                    }
+                    else {
+                        hero.moveU();
+                        hero.moveU();
+                        hero.moveU();
+                        hero.moveU();
+                        hero.moveU();
+                        hero.moveU();
+                        return;
+                        //hero.render(gc);
+                    }
                 }
                 else {
                     hero.render(gc);

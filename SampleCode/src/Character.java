@@ -18,19 +18,24 @@ public class Character {
         width = Froak.getWidth();
     }
 
+    public void setSpawn(double px, double py){
+        x = px;
+        y = py;
+    }
+
     public void moveU(){
-        y = y - 1;
+        y = y - 3;
     }
     public void moveD(){
-        y = y + 1;
+        y = y + 3;
     }
 
     public void moveR(){
-        x = x + 1;
+        x = x + 3;
     }
 
     public void moveL(){
-        x = x -1;
+        x = x - 3;
     }
 
     //Put gc in constructor so that when we create a character we can just pass the
