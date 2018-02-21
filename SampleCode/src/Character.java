@@ -24,20 +24,25 @@ public class Character {
     }
 
     public void moveU(){
-        y = y - 3;
+        y = y - 5;
     }
     public void moveD(){
-        y = y + 3;
+        y = y + 5;
     }
 
     public void moveR(){
-        x = x + 3;
+        x = x + 5;
     }
 
     public void moveL(){
-        x = x - 3;
+        x = x - 5;
     }
 
+    /*public boolean moveAcceptable(Character chara){
+        if (chara.getNoPassZone().intersects(this.getNoPassZone())){
+        }
+    }
+    */
     //Put gc in constructor so that when we create a character we can just pass the
     // default gc
     public void render (GraphicsContext gc){

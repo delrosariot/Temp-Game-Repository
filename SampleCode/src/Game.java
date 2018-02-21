@@ -40,7 +40,7 @@ public class Game extends Application {
         Scene theScene = new Scene( root );
         theStage.setScene( theScene );
 
-        Canvas canvas = new Canvas( 1000, 1000 );
+        Canvas canvas = new Canvas( 500, 500 );
         root.getChildren().add( canvas );
 
 
@@ -48,16 +48,14 @@ public class Game extends Application {
         theScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
-                if(System.currentTimeMillis() - lastPressProcessed > 300) {
-                    String code = event.getCode().toString();
 
-                    if (!moves.contains(code) && moves.isEmpty()) {
+                    String code = event.getCode().toString();
+                    if (!moves.contains(code)) {
                         moves.add(code);
 
                     }
-                    lastPressProcessed = System.currentTimeMillis();
                 }
-            }
+
         });
         theScene.setOnKeyReleased(new EventHandler<KeyEvent>() {
             @Override
@@ -83,73 +81,57 @@ public class Game extends Application {
 
         new AnimationTimer(){
             public void handle(long currentNanoTime){
-                gc.clearRect(0, 0, 1000, 1000);
+                gc.clearRect(0, 0, 500, 500);
                 enemy.setSpawn(110, 50);
                 enemy.render(gc);
 
 
                 if (moves.contains("LEFT")) {
-                    if(!hero.collision(enemy)) {
                         hero.moveL();
+                    if(!hero.collision(enemy)) {
                         hero.render(gc);
                     }
                     else{
                         hero.moveR();
-                        hero.moveR();
-                        hero.moveR();
-                        hero.moveR();
-                        hero.moveR();
-                        hero.moveR();
+                        hero.render(gc);
                         return;
-                        //hero.render(gc);
+
                     }
                 }
                 if (moves.contains("RIGHT")){
+                    hero.moveR();
                     if (!hero.collision(enemy)) {
-                        hero.moveR();
                         hero.render(gc);
+
                     }
                     else{
                         hero.moveL();
-                        hero.moveL();
-                        hero.moveL();
-                        hero.moveL();
-                        hero.moveL();
-                        hero.moveL();
+                        hero.render(gc);
                         return;
-                        //hero.render(gc);
+
                     }
                 }
                 if (moves.contains("UP")){
+                    hero.moveU();
                     if (!hero.collision(enemy)) {
-                        hero.moveU();
                         hero.render(gc);
                     }
                     else {
                         hero.moveD();
-                        hero.moveD();
-                        hero.moveD();
-                        hero.moveD();
-                        hero.moveD();
-                        hero.moveD();
+                        hero.render(gc);
                         return;
-                        //hero.render(gc);
+
                     }
                 }
                 if (moves.contains("DOWN")){
+                    hero.moveD();
                     if (!hero.collision(enemy)) {
-                        hero.moveD();
                         hero.render(gc);
                     }
                     else {
                         hero.moveU();
-                        hero.moveU();
-                        hero.moveU();
-                        hero.moveU();
-                        hero.moveU();
-                        hero.moveU();
+                        hero.render(gc);
                         return;
-                        //hero.render(gc);
                     }
                 }
                 else {
