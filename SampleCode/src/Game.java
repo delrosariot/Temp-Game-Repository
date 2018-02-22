@@ -88,57 +88,30 @@ public class Game extends Application {
 
                 if (moves.contains("LEFT")) {
                         hero.moveL();
-                    if(!hero.collision(enemy)) {
-                        hero.render(gc);
-                    }
-                    else{
+                    if(hero.collision(enemy)) {
                         hero.moveR();
-                        hero.render(gc);
-                        return;
-
                     }
                 }
                 if (moves.contains("RIGHT")){
                     hero.moveR();
-                    if (!hero.collision(enemy)) {
-                        hero.render(gc);
-
-                    }
-                    else{
+                    if (hero.collision(enemy)) {
                         hero.moveL();
-                        hero.render(gc);
-                        return;
-
                     }
                 }
                 if (moves.contains("UP")){
                     hero.moveU();
-                    if (!hero.collision(enemy)) {
-                        hero.render(gc);
-                    }
-                    else {
+                    if (hero.collision(enemy)) {
                         hero.moveD();
-                        hero.render(gc);
-                        return;
-
                     }
                 }
                 if (moves.contains("DOWN")){
                     hero.moveD();
-                    if (!hero.collision(enemy)) {
-                        hero.render(gc);
-                    }
-                    else {
+                    if (hero.collision(enemy)) {
                         hero.moveU();
-                        hero.render(gc);
-                        return;
                     }
                 }
-                else {
-                    hero.render(gc);
-                }
 
-
+                hero.render(gc);
             }
         }.start();
 
