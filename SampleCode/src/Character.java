@@ -6,16 +6,18 @@ import javafx.geometry.Rectangle2D;
 public class Character {
     private double x;
     private double y;
-    private Image Froak;
+    private Image Front;
     private double width;
     private double height;
+    private GraphicsContext gc;
 
-    public Character(){
+    public Character(GraphicsContext Graphics){
         x = 0;
         y = 0;
-        Froak = new Image("Froakie.png");
-        height = Froak.getHeight();
-        width = Froak.getWidth();
+        Front = new Image("SpriteT_01.png");
+        height = Front.getHeight();
+        width = Front.getWidth();
+        gc = Graphics;
     }
 
     public void setSpawn(double px, double py){
@@ -24,29 +26,22 @@ public class Character {
     }
 
     public void moveU(){
-        y = y - 5;
+        y = y - 1;
     }
     public void moveD(){
-        y = y + 5;
+        y = y + 1;
     }
 
     public void moveR(){
-        x = x + 5;
+        x = x + 1;
     }
 
     public void moveL(){
-        x = x - 5;
+        x = x - 1;
     }
 
-    /*public boolean moveAcceptable(Character chara){
-        if (chara.getNoPassZone().intersects(this.getNoPassZone())){
-        }
-    }
-    */
-    //Put gc in constructor so that when we create a character we can just pass the
-    // default gc
-    public void render (GraphicsContext gc){
-        gc.drawImage(Froak, x, y);
+    public void render (){
+        gc.drawImage(Front, x, y);
     }
 
     public Rectangle2D getNoPassZone(){
