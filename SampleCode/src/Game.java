@@ -72,23 +72,30 @@ public class Game extends Application {
         gc.setStroke( Color.BLACK );
         gc.setLineWidth(2);
         Font theFont = Font.font( "Times New Roman", FontWeight.BOLD, 48 );
-
-        Character hero = new Character();
-        Character enemy = new Character();
-
         gc.setFont( theFont );
+
+        Character hero = new Character("Froakie.png");
+        Sprite enemy = new Character("Froakie.png");
+        Character box = new Character("Froakie.png");
+
+        enemy.setSpawn(110, 50);
+        box.setSpawn(220, 100);
 
 
         new AnimationTimer(){
             public void handle(long currentNanoTime){
                 gc.clearRect(0, 0, 500, 500);
-                enemy.setSpawn(110, 50);
-                enemy.render(gc);
-
 
                 if (moves.contains("LEFT")) {
                         hero.moveL();
                     if(hero.collision(enemy)) {
+                        hero.moveR();
+                    }
+                    if(hero.collision(box)) {
+                        box.moveL();
+                    }
+                    if(box.collision(enemy)) {
+                        box.moveR();
                         hero.moveR();
                     }
                 }
@@ -97,10 +104,24 @@ public class Game extends Application {
                     if (hero.collision(enemy)) {
                         hero.moveL();
                     }
+                    if(hero.collision(box)) {
+                        box.moveR();
+                    }
+                    if(box.collision(enemy)) {
+                        box.moveL();
+                        hero.moveL();
+                    }
                 }
                 if (moves.contains("UP")){
                     hero.moveU();
                     if (hero.collision(enemy)) {
+                        hero.moveD();
+                    }
+                    if(hero.collision(box)) {
+                        box.moveU();
+                    }
+                    if(box.collision(enemy)) {
+                        box.moveD();
                         hero.moveD();
                     }
                 }
@@ -109,9 +130,18 @@ public class Game extends Application {
                     if (hero.collision(enemy)) {
                         hero.moveU();
                     }
+                    if(hero.collision(box)) {
+                        box.moveD();
+                    }
+                    if(box.collision(enemy)) {
+                        box.moveU();
+                        hero.moveU();
+                    }
                 }
 
                 hero.render(gc);
+                enemy.render(gc);
+                box.render(gc);
             }
         }.start();
 

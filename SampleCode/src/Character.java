@@ -3,56 +3,29 @@ import javafx.scene.image.Image;
 import javafx.geometry.Rectangle2D;
 
 
-public class Character {
-    private double x;
-    private double y;
-    private Image Froak;
-    private double width;
-    private double height;
+public class Character extends Sprite {
 
-    public Character(){
+    public Character(String imgFile){
         x = 0;
         y = 0;
-        Froak = new Image("Froakie.png");
-        height = Froak.getHeight();
-        width = Froak.getWidth();
+        image = new Image(imgFile);
+        height = image.getHeight();
+        width = image.getWidth();
     }
 
-    public void setSpawn(double px, double py){
-        x = px;
-        y = py;
-    }
-
-    public void moveU(){
+    public void moveU() {
         y = y - 5;
     }
-    public void moveD(){
+
+    public void moveD() {
         y = y + 5;
     }
 
-    public void moveR(){
+    public void moveR() {
         x = x + 5;
     }
 
-    public void moveL(){
+    public void moveL() {
         x = x - 5;
-    }
-
-    /*public boolean moveAcceptable(Character chara){
-        if (chara.getNoPassZone().intersects(this.getNoPassZone())){
-        }
-    }
-    */
-    //Put gc in constructor so that when we create a character we can just pass the
-    // default gc
-    public void render (GraphicsContext gc){
-        gc.drawImage(Froak, x, y);
-    }
-
-    public Rectangle2D getNoPassZone(){
-        return new Rectangle2D(x,y, width, height);
-    }
-    public boolean collision (Character chara){
-        return chara.getNoPassZone().intersects(this.getNoPassZone());
     }
 }
