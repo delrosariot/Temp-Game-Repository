@@ -31,6 +31,7 @@ import java.util.Timer;
 
 public class Game extends Application {
     ArrayList<String> moves = new ArrayList<String>();
+    ArrayList<String> map = new ArrayList<String>();
     long lastPressProcessed = 0;
 
     public void start(Stage theStage){
@@ -52,7 +53,11 @@ public class Game extends Application {
                     String code = event.getCode().toString();
                     if (!moves.contains(code)) {
                         moves.add(code);
-
+                    }
+                    if (!map.contains(code)) {
+                        map.add(code);
+                    } else {
+                        map.remove(code);
                     }
                 }
 
@@ -68,17 +73,17 @@ public class Game extends Application {
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
-        gc.setFill( Color.LIGHTCORAL );
+        gc.setFill( Color.RED );
         gc.setStroke( Color.BLACK );
-        gc.setLineWidth(2);
-        Font theFont = Font.font( "Times New Roman", FontWeight.BOLD, 48 );
+        gc.setLineWidth(1);
+        Font theFont = Font.font( "Times New Roman", FontWeight.BOLD, 30 );
         gc.setFont( theFont );
 
         Character hero = new Character("Froakie.png");
-        Sprite enemy = new Character("Froakie.png");
+        Sprite wall = new Character("Top.png");
         Character box = new Character("Froakie.png");
 
-        enemy.setSpawn(110, 50);
+        wall.setSpawn(110, 50);
         box.setSpawn(220, 100);
 
 
@@ -86,62 +91,85 @@ public class Game extends Application {
             public void handle(long currentNanoTime){
                 gc.clearRect(0, 0, 500, 500);
 
+                if (map.contains("M")) {
+                    moves.remove("LEFT");
+                    moves.remove("RIGHT");
+                    moves.remove("UP");
+                    moves.remove("DOWN");
+                    gc.clearRect(0,0,500,500);
+                    gc.strokeText("Dungeon Map",10,30);
+                    gc.strokeRect(225,225,50,50);
+                    gc.strokeRect(225,125,50,50);
+                    gc.strokeLine(250,225,250,175);
+                    gc.strokeRect(225,325,50,50);
+                    gc.strokeLine(250,275,250,325);
+                    gc.strokeRect(125,225,50,50);
+                    gc.strokeLine(225,250,175,250);
+                    gc.strokeRect(325,225,50,50);
+                    gc.strokeLine(275,250,325,250);
+                    gc.strokeRect(425,225,50,50);
+                    gc.strokeLine(375,250,425,250);
+                    gc.fillRect(225,225,50,50);
+                }
+
                 if (moves.contains("LEFT")) {
                         hero.moveL();
-                    if(hero.collision(enemy)) {
+                    if(hero.collision(wall)) {
                         hero.moveR();
                     }
                     if(hero.collision(box)) {
                         box.moveL();
                     }
-                    if(box.collision(enemy)) {
+                    if(box.collision(wall)) {
                         box.moveR();
                         hero.moveR();
                     }
                 }
                 if (moves.contains("RIGHT")){
                     hero.moveR();
-                    if (hero.collision(enemy)) {
+                    if (hero.collision(wall)) {
                         hero.moveL();
                     }
                     if(hero.collision(box)) {
                         box.moveR();
                     }
-                    if(box.collision(enemy)) {
+                    if(box.collision(wall)) {
                         box.moveL();
                         hero.moveL();
                     }
                 }
                 if (moves.contains("UP")){
                     hero.moveU();
-                    if (hero.collision(enemy)) {
+                    if (hero.collision(wall)) {
                         hero.moveD();
                     }
                     if(hero.collision(box)) {
                         box.moveU();
                     }
-                    if(box.collision(enemy)) {
+                    if(box.collision(wall)) {
                         box.moveD();
                         hero.moveD();
                     }
                 }
                 if (moves.contains("DOWN")){
                     hero.moveD();
-                    if (hero.collision(enemy)) {
+                    if (hero.collision(wall)) {
                         hero.moveU();
                     }
                     if(hero.collision(box)) {
                         box.moveD();
                     }
-                    if(box.collision(enemy)) {
+                    if(box.collision(wall)) {
                         box.moveU();
                         hero.moveU();
                     }
                 }
 
-                hero.render(gc);
-                enemy.render(gc);
-                box.render(gc);
+                if (!map.contains("M")) {
+                    hero.render(gc);
+                    wall.render(gc);
+                    box.render(gc);
+                }
             }
         }.start();
 

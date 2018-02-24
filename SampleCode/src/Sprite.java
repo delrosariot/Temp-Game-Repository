@@ -28,6 +28,7 @@ public class Sprite {
     public Rectangle2D getNoPassZone(){
         return new Rectangle2D(x,y, width, height);
     }
+
     public boolean collision (Sprite sprite){
         return sprite.getNoPassZone().intersects(this.getNoPassZone());
     }

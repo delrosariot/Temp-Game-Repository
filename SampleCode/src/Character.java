@@ -1,7 +1,4 @@
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.geometry.Rectangle2D;
-
 
 public class Character extends Sprite {
 
